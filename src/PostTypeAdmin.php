@@ -616,9 +616,11 @@ class PostTypeAdmin {
 	 * @return array<int,string> Updated array of items.
 	 */
 	public function glance_items( array $items ): array {
-		/** @var \WP_Post_Type */
 		$pto = get_post_type_object( $this->cpt->post_type );
 
+		if ( ! ( $pto instanceof \WP_Post_Type ) ) {
+			return $items;
+		}
 		if ( ! current_user_can( $pto->cap->edit_posts ) ) {
 			return $items;
 		}

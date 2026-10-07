@@ -580,9 +580,11 @@ class TaxonomyAdmin {
 	 * @return array<int,string> Updated array of items.
 	 */
 	public function glance_items( array $items ): array {
-		/** @var WP_Taxonomy */
 		$taxonomy = get_taxonomy( $this->taxo->taxonomy );
 
+		if ( ! ( $taxonomy instanceof WP_Taxonomy ) ) {
+			return $items;
+		}
 		if ( ! current_user_can( $taxonomy->cap->manage_terms ) ) {
 			return $items;
 		}
